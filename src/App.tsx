@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -13,6 +13,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import Users from './pages/Users';
 import Clients from './pages/Clients';
 import Orders from './pages/Orders';
+import Login from './pages/Login';
 
 import User from './images/user-line.svg';
 import Client from './images/group-line.svg';
@@ -55,29 +56,29 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/users">
+          <Route exact path="/user">
             <Users />
           </Route>
-          <Route exact path="/clients">
+          <Route exact path="/client">
             <Clients />
           </Route>
-          <Route path="/orders">
+          <Route path="/order">
             <Orders />
           </Route>
           <Route exact path="/">
-            <Redirect to="/users" />
+            <Login />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="users" href="/users">
+          <IonTabButton tab="users" href="/user">
             <IonIcon aria-hidden="true" icon={User} />
             <IonLabel>Usuários</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="clients" href="/clients">
+          <IonTabButton tab="clients" href="/client">
             <IonIcon aria-hidden="true" icon={Client} />
             <IonLabel>Clientes</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="orders" href="/orders">
+          <IonTabButton tab="orders" href="/order">
             <IonIcon aria-hidden="true" icon={Order} />
             <IonLabel>Pedidos</IonLabel>
           </IonTabButton>
