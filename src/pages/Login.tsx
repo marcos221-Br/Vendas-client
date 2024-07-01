@@ -10,7 +10,6 @@ function setLogin() {
     let name = (document.getElementById('name') as HTMLInputElement).value
     let password = (document.getElementById('password') as HTMLInputElement).value
     setUser(name,password)
-    window.location.href = "/client"
 }
 
 const Login: React.FC = () => {

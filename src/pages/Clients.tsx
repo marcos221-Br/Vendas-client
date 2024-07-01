@@ -2,7 +2,14 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/rea
 import ExploreContainer from '../components/ExploreContainer';
 import './Clients.css';
 
+function verifyLogin(){
+  if(localStorage.getItem('login') == null){
+    window.location.href = "/"
+  }
+}
+
 const Clients: React.FC = () => {
+  verifyLogin()
   return (
     <IonPage>
       <IonHeader>

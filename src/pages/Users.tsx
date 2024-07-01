@@ -2,8 +2,21 @@ import { IonAvatar, IonButton, IonContent, IonHeader, IonInput, IonItem, IonPage
 import './Users.css';
 import avatar from '../images/user-line_white.svg';
 import lock from '../images/lock-2-line.svg';
+import { sendJson } from '../components/Json';
+
+function verifyLogin(){
+  if(localStorage.getItem('login') == null){
+    window.location.href = "/"
+  }
+}
+
+function findUsers() {
+  console.log(sendJson("/user","GET"))
+}
 
 const Users: React.FC = () => {
+  verifyLogin()
+  findUsers()
   return (
     <IonPage>
       <IonHeader>
