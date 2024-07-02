@@ -2,14 +2,26 @@ import { IonAvatar, IonButton, IonContent, IonHeader, IonInput, IonItem, IonPage
 import './Users.css';
 import avatar from '../images/user-line_white.svg';
 import lock from '../images/lock-2-line.svg';
-import { setUser } from '../components/Json';
+import { sendJson, setHeader } from '../components/Json';
 import { Route } from 'react-router-dom';
 import Clients from './Clients';
 
 function setLogin() {
-    let name = (document.getElementById('name') as HTMLInputElement).value
-    let password = (document.getElementById('password') as HTMLInputElement).value
-    setUser(name,password)
+  let name = (document.getElementById('name') as HTMLInputElement).value
+  let password = (document.getElementById('password') as HTMLInputElement).value
+  let token = btoa(name + ':' + password)
+  let json = JSON.stringify({ name: name, password: password})
+  setHeader('Authorization','Basic ' + token)
+  sendJson('/login','POST',json)?.then(function(response:any) {
+    if(response !== undefined){
+      localStorage.setItem('username',name)
+      localStorage.setItem('role',response.role)
+      localStorage.setItem('token','Basic ' + token)
+      window.location.href = "/client"
+    }else{
+      (document.getElementById('message') as HTMLTextAreaElement).innerHTML = 'Usuário ou senha incorretos!'
+    }
+  })
 }
 
 const Login: React.FC = () => {
@@ -40,6 +52,7 @@ const Login: React.FC = () => {
               </IonAvatar>
               <IonInput label="Senha" placeholder="Digite sua senha" type='password' required maxlength={16} clearInput={true} id='password'></IonInput>
             </IonItem>
+            <p id='message'></p>
           </div>
           <br/>
           <div className='buttons'>

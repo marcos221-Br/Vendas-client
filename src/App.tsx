@@ -15,7 +15,7 @@ import Clients from './pages/Clients';
 import Orders from './pages/Orders';
 import Login from './pages/Login';
 
-import User from './images/user-line.svg';
+import User from './images/user-settings-line.svg';
 import Client from './images/group-line.svg';
 import Order from './images/list-unordered.svg';
 
@@ -48,8 +48,15 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { setHeader } from './components/Json';
+
+function setup(){
+  setHeader('Content-Type','application/json')
+  setHeader('Accept','*/*')
+}
 
 setupIonicReact();
+setup()
 
 const App: React.FC = () => (
   <IonApp>
