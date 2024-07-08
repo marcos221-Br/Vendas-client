@@ -128,12 +128,16 @@ function findOrders(id:Number){
 }
 
 function createOrder(){
-  order.setIdClient(parseInt((document.getElementById('id') as HTMLInputElement).value));
-  orderController.createOrder(order).then(function(response){
-    (document.getElementById('orderMessage') as HTMLTextAreaElement).innerHTML = "Pedido criado com sucesso!";
-    sessionStorage.setItem('orderId',response.id);
-  })
-  window.location.href = '/order';
+  if((document.getElementById('id') as HTMLInputElement).value != '' && (document.getElementById('id') as HTMLInputElement).value != '0'){
+    order.setIdClient(parseInt((document.getElementById('id') as HTMLInputElement).value));
+    orderController.createOrder(order).then(function(response){
+      (document.getElementById('orderMessage') as HTMLTextAreaElement).innerHTML = "Pedido criado com sucesso!";
+      sessionStorage.setItem('orderId',response.id);
+    })
+    window.location.href = '/order';
+  }else{
+    (document.getElementById('orderMessage') as HTMLTextAreaElement).innerHTML = "Necessário fornecer um cliente!";
+  }
 }
 
 function clearInputs(){
