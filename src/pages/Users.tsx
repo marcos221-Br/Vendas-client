@@ -10,9 +10,9 @@ var userController = new UserController();
 var user = new User();
 
 function verifyLogin(){
-  if(localStorage.getItem('username') == null){
+  if(sessionStorage.getItem('username') == null){
     window.location.href = '/'
-  }else if(localStorage.getItem('role') != 'administrator'){
+  }else if(sessionStorage.getItem('role') != 'administrator'){
     window.location.href = '/client'
   }
 }
@@ -94,7 +94,8 @@ const Users: React.FC = () => {
             <IonTitle size="large">Usuários</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <div className='main'>
+        <div className='mainUsers'>
+          <h1>Usuário</h1>
           <div>
             <IonToolbar>
               <IonSearchbar placeholder='Digite o nome de Usuário' onIonChange={findUser} id='searchBar'></IonSearchbar>

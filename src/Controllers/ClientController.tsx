@@ -11,17 +11,17 @@ export class ClientController{
         return sendJson('/client/' + cellphone,'GET')
     }
 
-    public createUser(client:Client){
+    public createClient(client:Client){
         let json = JSON.stringify({ name: client.getName(), cellphone: client.getCellphone() })
         return sendJson('/client','POST',json)
     }
 
-    public updateUser(client:Client){
+    public updateClient(client:Client){
         let json = JSON.stringify(client)
         return sendJson('/client/' + client.getId(),'PUT',json)
     }
 
-    public deleteUser(client:Client){
+    public deleteClient(client:Client){
         return sendJson('/client/' + client.getId(),'DELETE')
     }
 }

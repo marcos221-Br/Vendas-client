@@ -3,7 +3,7 @@ import ExploreContainer from '../components/ExploreContainer';
 import './Orders.css';
 
 function verifyLogin(){
-  if(localStorage.getItem('username') == null){
+  if(sessionStorage.getItem('username') == null){
     window.location.href = "/"
   }
 }

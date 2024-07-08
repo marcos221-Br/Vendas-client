@@ -1,5 +1,5 @@
 import { IonAvatar, IonButton, IonContent, IonHeader, IonInput, IonItem, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import './Users.css';
+import './Login.css';
 import avatar from '../images/user-line_white.svg';
 import lock from '../images/lock-2-line.svg';
 import { sendJson, setHeader } from '../components/Json';
@@ -14,9 +14,9 @@ function setLogin() {
   setHeader('Authorization','Basic ' + token)
   sendJson('/login','POST',json)?.then(function(response:any) {
     if(response !== undefined){
-      localStorage.setItem('username',name)
-      localStorage.setItem('role',response.role)
-      localStorage.setItem('token','Basic ' + token)
+      sessionStorage.setItem('username',name)
+      sessionStorage.setItem('role',response.role)
+      sessionStorage.setItem('token','Basic ' + token)
       window.location.href = "/client"
     }else{
       (document.getElementById('message') as HTMLTextAreaElement).innerHTML = 'Usuário ou senha incorretos!'
@@ -24,7 +24,14 @@ function setLogin() {
   })
 }
 
+function verifyLogin(){
+  if(sessionStorage.getItem('token') != null){
+    window.location.href = '/client'
+  }
+}
+
 const Login: React.FC = () => {
+  verifyLogin();
   return (
     <IonPage>
       <IonHeader>
@@ -35,10 +42,11 @@ const Login: React.FC = () => {
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Usuários</IonTitle>
+            <IonTitle size="large">Login</IonTitle>
           </IonToolbar>
         </IonHeader>
         <div className='main'>
+          <h1>Entrar</h1>
           <div>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
