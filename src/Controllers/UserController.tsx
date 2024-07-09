@@ -4,7 +4,7 @@ import { sendJson, setHeader } from "../components/Json";
 export class UserController{
 
     public constructor(){
-        setHeader('Authorization',localStorage.getItem('token')+"")
+        setHeader('Authorization',sessionStorage.getItem('token')+"")
     }
 
     public findUser(name:string){

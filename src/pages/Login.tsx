@@ -1,7 +1,7 @@
 import { IonAvatar, IonButton, IonContent, IonHeader, IonInput, IonItem, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './Login.css';
-import avatar from '../images/user-line_white.svg';
-import lock from '../images/lock-2-line.svg';
+import avatar from '../Images/user-line_white.svg';
+import lock from '../Images/lock-2-line.svg';
 import { sendJson, setHeader } from '../components/Json';
 import { Route } from 'react-router-dom';
 import Clients from './Clients';
@@ -56,7 +56,7 @@ const Login: React.FC = () => {
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
-                <img alt="Key Image" src={lock} />
+                <img alt="Lock Image" src={lock} />
               </IonAvatar>
               <IonInput label="Senha" placeholder="Digite sua senha" type='password' required maxlength={16} clearInput={true} id='password'></IonInput>
             </IonItem>

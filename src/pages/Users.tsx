@@ -1,8 +1,8 @@
 import { IonAvatar, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonPage, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import './Users.css';
-import avatar from '../images/user-line_white.svg';
-import lock from '../images/lock-2-line.svg';
-import card from '../images/id-card-line.svg';
+import avatar from '../Images/user-line_white.svg';
+import lock from '../Images/lock-2-line.svg';
+import card from '../Images/id-card-line.svg';
 import { UserController } from '../Controllers/UserController';
 import { User } from '../Models/User';
 
@@ -72,7 +72,7 @@ function deleteUser() {
 }
 
 function logOut(){
-  localStorage.clear()
+  sessionStorage.clear()
   window.location.href = '/'
 }
 
@@ -113,13 +113,13 @@ const Users: React.FC = () => {
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
-                <img alt="Key Image" src={lock} />
+                <img alt="Lock Image" src={lock} />
               </IonAvatar>
               <IonInput label="Senha" placeholder="Digite a senha" type='password' required maxlength={16} clearInput={true} id='password'></IonInput>
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
-                <img alt="User Image" src={card} />
+                <img alt="Card Image" src={card} />
               </IonAvatar>
               <IonSelect label="Cargo" placeholder="Tipo de usuário" id='role'>
                 <IonSelectOption value="administrator">Administrador</IonSelectOption>

@@ -4,11 +4,11 @@ import { sendJson, setHeader } from "../components/Json";
 export class OrderController{
 
     public constructor(){
-        setHeader('Authorization',localStorage.getItem('token')+"")
+        setHeader('Authorization',sessionStorage.getItem('token')+"")
     }
 
-    public findOrders(idclient:Number){
-        return sendJson('/order/' + idclient,'GET')
+    public findOrders(idClient:Number){
+        return sendJson('/order/' + idClient,'GET')
     }
 
     public createOrder(order:Order){

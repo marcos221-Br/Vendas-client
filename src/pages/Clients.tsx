@@ -1,9 +1,9 @@
-import { IonAvatar, IonButton, IonButtons, IonContent, IonFab, IonHeader, IonInput, IonItem, IonList, IonPage, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
+import { IonAvatar, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonList, IonPage, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
 import './Clients.css';
-import avatar from '../images/user-line_white.svg';
-import smartphone from '../images/smartphone-line.svg';
-import pencil from '../images/pencil-line.svg';
-import trashCan from '../images/delete-bin-5-line.svg';
+import avatar from '../Images/user-line_white.svg';
+import smartphone from '../Images/smartphone-line.svg';
+import pencil from '../Images/pencil-line.svg';
+import trashCan from '../Images/delete-bin-5-line.svg';
 import { ClientController } from '../Controllers/ClientController';
 import { Client } from '../Models/Client';
 import { OrderController } from '../Controllers/OrderController';
@@ -82,7 +82,7 @@ function editOrder(value:any) {
 }
 
 function findOrders(id:Number){
-  let list = (document.getElementById('list') as HTMLIonListElement)
+  let list = (document.getElementById('listOrders') as HTMLIonListElement)
   orderController.findOrders(id).then(function(orders) {
     if(orders.length > 0){
       for (let i = 0; i < orders.length; i++) {
@@ -186,18 +186,18 @@ const Clients: React.FC = () => {
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
-                <img alt="Key Image" src={smartphone} />
+                <img alt="Smartphone Image" src={smartphone} />
               </IonAvatar>
               <IonInput label="Telefone" placeholder="Digite o telefone" type='tel' required clearInput={true} id='cellphone'></IonInput>
             </IonItem>
             <p id='clientMessage'></p>
           </div>
-          <IonFab horizontal='end' vertical='center'>
-            <IonButton size='small' onClick={createOrder}>Novo Pedido</IonButton>
-          </IonFab>
           <h1>Pedidos</h1>
+          <IonItem>
+            <IonButton size='small' onClick={createOrder} slot='end'>Novo Pedido</IonButton>
+          </IonItem>
           <div id='ordersList'>
-            <IonList id='list'>
+            <IonList id='listOrders'>
               <IonItem>
                 <p>A lista está vazia</p>
               </IonItem>

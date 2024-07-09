@@ -15,9 +15,9 @@ import Clients from './pages/Clients';
 import Orders from './pages/Orders';
 import Login from './pages/Login';
 
-import User from './images/user-settings-line.svg';
-import Client from './images/group-line.svg';
-import Order from './images/list-unordered.svg';
+import User from './Images/user-settings-line.svg';
+import Client from './Images/group-line.svg';
+import Order from './Images/list-unordered.svg';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
