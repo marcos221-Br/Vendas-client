@@ -32,7 +32,7 @@ function findClient(){
     clientController.findClient(cellphone).then(function(response){
       if(response.id !== undefined){
         (document.getElementById('searchBar') as HTMLInputElement).value = '';
-        (document.getElementById('id') as HTMLInputElement).value = response.id;
+        (document.getElementById('idClient') as HTMLInputElement).value = response.id;
         (document.getElementById('name') as HTMLInputElement).value = response.name;
         (document.getElementById('cellphone') as HTMLInputElement).value = response.cellphone;
         findOrders(response.id);
@@ -46,13 +46,14 @@ function findClient(){
 function createClient(){
   client.setName((document.getElementById('name') as HTMLInputElement).value);
   client.setCellphone((document.getElementById('cellphone') as HTMLInputElement).value);
-  clientController.createClient(client).then(function(){
+  clientController.createClient(client).then(function(response){
+    (document.getElementById('idClient') as HTMLInputElement).value = response.id;
     (document.getElementById('clientMessage') as HTMLTextAreaElement).innerHTML = "Cliente criado com sucesso!"
   })
 }
 
 function updateClient() {
-  client.setId(parseInt((document.getElementById('id') as HTMLInputElement).value));
+  client.setId(parseInt((document.getElementById('idClient') as HTMLInputElement).value));
   client.setName((document.getElementById('name') as HTMLInputElement).value);
   client.setCellphone((document.getElementById('cellphone') as HTMLInputElement).value);
   clientController.updateClient(client).then(function(){
@@ -61,7 +62,7 @@ function updateClient() {
 }
 
 function deleteClient() {
-  client.setId(parseInt((document.getElementById('id') as HTMLInputElement).value));
+  client.setId(parseInt((document.getElementById('idClient') as HTMLInputElement).value));
   clientController.deleteClient(client).then(function(){
     (document.getElementById('clientMessage') as HTMLTextAreaElement).innerHTML = "Cliente excluido com sucesso!"
     clearInputs()
@@ -71,7 +72,7 @@ function deleteClient() {
 function deleteOrder(value:any) {
   order.setId(value.target.id);
   orderController.deleteOrder(order).then(function(){
-    findOrders(parseInt((document.getElementById('id') as HTMLInputElement).value));
+    findOrders(parseInt((document.getElementById('idClient') as HTMLInputElement).value));
     (document.getElementById('orderMessage') as HTMLInputElement).innerHTML = "Pedido excluido com sucesso!";
   })
 }
@@ -81,9 +82,9 @@ function editOrder(value:any) {
   window.location.href = '/order';
 }
 
-function findOrders(id:Number){
+function findOrders(idClient:Number){
   let list = (document.getElementById('listOrders') as HTMLIonListElement)
-  orderController.findOrders(id).then(function(orders) {
+  orderController.findOrders(idClient).then(function(orders) {
     if(orders.length > 0){
       for (let i = 0; i < orders.length; i++) {
         let id = document.createElement('ion-label');
@@ -128,8 +129,8 @@ function findOrders(id:Number){
 }
 
 function createOrder(){
-  if((document.getElementById('id') as HTMLInputElement).value != '' && (document.getElementById('id') as HTMLInputElement).value != '0'){
-    order.setIdClient(parseInt((document.getElementById('id') as HTMLInputElement).value));
+  if((document.getElementById('idClient') as HTMLInputElement).value != '' && (document.getElementById('idClient') as HTMLInputElement).value != '0'){
+    order.setIdClient(parseInt((document.getElementById('idClient') as HTMLInputElement).value));
     orderController.createOrder(order).then(function(response){
       (document.getElementById('orderMessage') as HTMLTextAreaElement).innerHTML = "Pedido criado com sucesso!";
       sessionStorage.setItem('orderId',response.id);
@@ -143,10 +144,16 @@ function createOrder(){
 function clearInputs(){
   (document.getElementById('clientMessage') as HTMLTextAreaElement).innerHTML = '';
   (document.getElementById('searchBar') as HTMLInputElement).value = '';
-  (document.getElementById('id') as HTMLInputElement).value = '0';
+  (document.getElementById('idClient') as HTMLInputElement).value = '0';
   (document.getElementById('name') as HTMLInputElement).value = '';
   (document.getElementById('cellphone') as HTMLInputElement).value = '';
   (document.getElementById('orderMessage') as HTMLInputElement).innerHTML = '';
+  let list = (document.getElementById('listOrders') as HTMLIonListElement);
+  let p = document.createElement('p');
+  p.innerHTML = 'A lista está vazia'
+  let item = document.createElement('ion-item');
+  item.appendChild(p);
+  list.replaceChildren(item);
 }
 
 const Clients: React.FC = () => {
@@ -176,7 +183,7 @@ const Clients: React.FC = () => {
           </div>
           <div>
             <IonItem>
-              <IonInput label="Número de Cliente" id='id' disabled></IonInput>
+              <IonInput label="Número de Cliente" id='idClient' disabled></IonInput>
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">

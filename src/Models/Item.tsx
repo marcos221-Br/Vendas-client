@@ -3,12 +3,14 @@ export class Item{
     private quantity:Number;
     private description:string;
     private value:Number;
+    private idOrder:Number;
 
     public constructor(){
         this.id = 0;
         this.quantity = 0;
         this.description = '';
         this.value = 0;
+        this.idOrder = 0;
     }
 
     public setId(id:Number){
@@ -41,5 +43,13 @@ export class Item{
 
     public getValue(){
         return this.value;
+    }
+
+    public setIdOrder(idOrder:Number){
+        this.idOrder = idOrder;
+    }
+
+    public getIdOrder(){
+        return this.idOrder;
     }
 }
