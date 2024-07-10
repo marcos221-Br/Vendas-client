@@ -1,5 +1,7 @@
 import axios, { HttpStatusCode } from "axios";
 
+var url = 'http://carvalho.com:8080/api';
+
 export function setHeader(key:string,value:string){
     axios.defaults.headers.common[key] = value
 }
@@ -8,7 +10,7 @@ export function sendJson(endpoint:string,type:string,data:any = null):Promise<an
     let result:any
     switch (type) {
         case 'GET':
-            result = axios.get('http://localhost:8080/api' + endpoint).then(function(response) {
+            result = axios.get(url + endpoint).then(function(response) {
                 if(response.status == HttpStatusCode.Ok){
                     return response.data
                 }
@@ -16,7 +18,7 @@ export function sendJson(endpoint:string,type:string,data:any = null):Promise<an
             break;
         
         case 'POST':
-            result = axios.post('http://localhost:8080/api' + endpoint,data).then(function(response) {
+            result = axios.post(url + endpoint,data).then(function(response) {
                 if(response.status == HttpStatusCode.Ok){
                     return response.data
                 }
@@ -24,7 +26,7 @@ export function sendJson(endpoint:string,type:string,data:any = null):Promise<an
             break;
         
         case 'PUT':
-            result = axios.put('http://localhost:8080/api' + endpoint,data).then(function(response) {
+            result = axios.put(url + endpoint,data).then(function(response) {
                 if(response.status == HttpStatusCode.Ok){
                     return response.data
                 }
@@ -32,7 +34,7 @@ export function sendJson(endpoint:string,type:string,data:any = null):Promise<an
             break;
 
         case 'DELETE':
-            result = axios.delete('http://localhost:8080/api' + endpoint).then(function(response) {
+            result = axios.delete(url + endpoint).then(function(response) {
                 if(response.status == HttpStatusCode.Ok){
                     return response.data
                 }
