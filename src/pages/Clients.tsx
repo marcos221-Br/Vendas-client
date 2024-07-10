@@ -16,13 +16,13 @@ var order = new Order();
 
 function verifyLogin(){
   if(sessionStorage.getItem('username') == null){
-    window.location.href = '/'
+    window.location.pathname = '/'
   }
 }
 
 function logOut(){
   sessionStorage.clear()
-  window.location.href = '/'
+  window.location.pathname = '/'
 }
 
 function findClient(){
@@ -79,7 +79,7 @@ function deleteOrder(value:any) {
 
 function editOrder(value:any) {
   sessionStorage.setItem('orderId',value.target.id);
-  window.location.href = '/order';
+  window.location.pathname = '/order';
 }
 
 function findOrders(idClient:Number){
@@ -134,8 +134,8 @@ function createOrder(){
     orderController.createOrder(order).then(function(response){
       (document.getElementById('orderMessage') as HTMLTextAreaElement).innerHTML = "Pedido criado com sucesso!";
       sessionStorage.setItem('orderId',response.id);
+      window.location.pathname = '/order';
     })
-    window.location.href = '/order';
   }else{
     (document.getElementById('orderMessage') as HTMLTextAreaElement).innerHTML = "Necessário fornecer um cliente!";
   }
@@ -183,19 +183,19 @@ const Clients: React.FC = () => {
           </div>
           <div>
             <IonItem>
-              <IonInput label="Número de Cliente" id='idClient' disabled></IonInput>
+              <IonInput label="Número de Cliente" id='idClient' disabled labelPlacement='stacked'></IonInput>
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="User Image" src={avatar} />
               </IonAvatar>
-              <IonInput label="Nome" placeholder="Digite o nome" required clearInput={true} id='name'></IonInput>
+              <IonInput label="Nome" placeholder="Digite o nome do cliente" required clearInput={true} id='name' labelPlacement='stacked'></IonInput>
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="Smartphone Image" src={smartphone} />
               </IonAvatar>
-              <IonInput label="Telefone" placeholder="Digite o telefone" type='tel' required clearInput={true} id='cellphone'></IonInput>
+              <IonInput label="Telefone" placeholder="Digite o telefone do cliente" type='tel' required clearInput={true} id='cellphone' labelPlacement='stacked'></IonInput>
             </IonItem>
             <p id='clientMessage'></p>
           </div>

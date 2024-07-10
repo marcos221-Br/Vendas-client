@@ -17,7 +17,7 @@ function setLogin() {
       sessionStorage.setItem('username',name)
       sessionStorage.setItem('role',response.role)
       sessionStorage.setItem('token','Basic ' + token)
-      window.location.href = "/client"
+      window.location.pathname = '/client'
     }else{
       (document.getElementById('message') as HTMLTextAreaElement).innerHTML = 'Usuário ou senha incorretos!'
     }
@@ -52,13 +52,13 @@ const Login: React.FC = () => {
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="User Image" src={avatar} />
               </IonAvatar>
-              <IonInput label="Nome de Usuário" placeholder="Digite seu nome" required clearInput={true} id='name'></IonInput>
+              <IonInput label="Nome de Usuário" placeholder="Digite seu nome" required clearInput={true} id='name' labelPlacement='stacked'></IonInput>
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="Lock Image" src={lock} />
               </IonAvatar>
-              <IonInput label="Senha" placeholder="Digite sua senha" type='password' required maxlength={16} clearInput={true} id='password'></IonInput>
+              <IonInput label="Senha" placeholder="Digite sua senha" type='password' required maxlength={16} clearInput={true} id='password' labelPlacement='stacked'></IonInput>
             </IonItem>
             <p id='message'></p>
           </div>

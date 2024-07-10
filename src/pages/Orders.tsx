@@ -12,13 +12,13 @@ var item = new Item();
 
 function verifyLogin(){
   if(sessionStorage.getItem('username') == null){
-    window.location.href = "/"
+    window.location.pathname = '/'
   }
 }
 
 function logOut(){
   sessionStorage.clear()
-  window.location.href = '/'
+  window.location.pathname = '/'
 }
 
 function editItem(value:any){
@@ -111,7 +111,7 @@ function findItens(){
 const Orders: React.FC = () => {
   verifyLogin()
   return (
-    <IonPage>
+    <IonPage onLoad={findItens}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Pedidos</IonTitle>
@@ -149,7 +149,6 @@ const Orders: React.FC = () => {
           </div>
           <p id='message'>Nenhum pedido foi selecionado!</p>
         </div>
-        <IonButton onClick={findItens}>Teste</IonButton>
       </IonContent>
     </IonPage>
   );

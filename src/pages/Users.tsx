@@ -11,9 +11,9 @@ var user = new User();
 
 function verifyLogin(){
   if(sessionStorage.getItem('username') == null){
-    window.location.href = '/'
+    window.location.pathname = '/'
   }else if(sessionStorage.getItem('role') != 'administrator'){
-    window.location.href = '/client'
+    window.location.pathname = '/client'
   }
 }
 
@@ -103,25 +103,25 @@ const Users: React.FC = () => {
           </div>
           <div>
             <IonItem>
-              <IonInput label="Número de Usuário" id='id' disabled></IonInput>
+              <IonInput label="Número de Usuário" id='id' disabled labelPlacement='stacked'></IonInput>
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="User Image" src={avatar} />
               </IonAvatar>
-              <IonInput label="Nome de Usuário" placeholder="Digite o nome" required clearInput={true} id='name'></IonInput>
+              <IonInput label="Nome de Usuário" placeholder="Digite o nome de Usuário" required clearInput={true} id='name' labelPlacement='stacked'></IonInput>
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="Lock Image" src={lock} />
               </IonAvatar>
-              <IonInput label="Senha" placeholder="Digite a senha" type='password' required maxlength={16} clearInput={true} id='password'></IonInput>
+              <IonInput label="Senha" placeholder="Digite a senha de Usuário" type='password' required maxlength={16} clearInput={true} id='password' labelPlacement='stacked'></IonInput>
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="Card Image" src={card} />
               </IonAvatar>
-              <IonSelect label="Cargo" placeholder="Tipo de usuário" id='role'>
+              <IonSelect label="Cargo" placeholder="Tipo de usuário" id='role' labelPlacement='stacked'>
                 <IonSelectOption value="administrator">Administrador</IonSelectOption>
                 <IonSelectOption value="user">Usuário</IonSelectOption>
               </IonSelect>
