@@ -11,9 +11,9 @@ var user = new User();
 
 function verifyLogin(){
   if(sessionStorage.getItem('username') == null){
-    window.location.pathname = '/'
+    window.location.href = '/'
   }else if(sessionStorage.getItem('role') != 'administrator'){
-    window.location.pathname = '/client'
+    window.location.href = '/client'
   }
 }
 

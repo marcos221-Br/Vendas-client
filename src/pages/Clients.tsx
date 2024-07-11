@@ -16,13 +16,13 @@ var order = new Order();
 
 function verifyLogin(){
   if(sessionStorage.getItem('username') == null){
-    window.location.pathname = '/'
+    window.location.href = '/'
   }
 }
 
 function logOut(){
   sessionStorage.clear()
-  window.location.pathname = '/'
+  window.location.href = '/'
 }
 
 function findClient(){
@@ -79,7 +79,7 @@ function deleteOrder(value:any) {
 
 function editOrder(value:any) {
   sessionStorage.setItem('orderId',value.target.id);
-  window.location.pathname = '/order';
+  window.location.href = '/order';
 }
 
 function findOrders(idClient:Number){
@@ -134,7 +134,7 @@ function createOrder(){
     orderController.createOrder(order).then(function(response){
       (document.getElementById('orderMessage') as HTMLTextAreaElement).innerHTML = "Pedido criado com sucesso!";
       sessionStorage.setItem('orderId',response.id);
-      window.location.pathname = '/order';
+      window.location.href = '/order';
     })
   }else{
     (document.getElementById('orderMessage') as HTMLTextAreaElement).innerHTML = "Necessário fornecer um cliente!";

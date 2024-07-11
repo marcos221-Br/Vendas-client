@@ -17,7 +17,7 @@ function setLogin() {
       sessionStorage.setItem('username',name)
       sessionStorage.setItem('role',response.role)
       sessionStorage.setItem('token','Basic ' + token)
-      window.location.pathname = '/client'
+      window.location.href = '/client'
     }else{
       (document.getElementById('message') as HTMLTextAreaElement).innerHTML = 'Usuário ou senha incorretos!'
     }
@@ -67,9 +67,6 @@ const Login: React.FC = () => {
             <IonButton size='default' onClick={setLogin}>Entrar</IonButton>
           </div>
         </div>
-        <Route exact path="/clients">
-            <Clients />
-        </Route>
       </IonContent>
     </IonPage>
   );

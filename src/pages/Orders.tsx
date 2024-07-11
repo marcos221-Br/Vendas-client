@@ -12,13 +12,13 @@ var item = new Item();
 
 function verifyLogin(){
   if(sessionStorage.getItem('username') == null){
-    window.location.pathname = '/'
+    window.location.href = '/'
   }
 }
 
 function logOut(){
   sessionStorage.clear()
-  window.location.pathname = '/'
+  window.location.href = '/'
 }
 
 function editItem(value:any){
