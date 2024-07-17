@@ -18,14 +18,14 @@ function verifyLogin(){
 }
 
 function findUser(){
-  let name = (document.getElementById('searchBar') as HTMLInputElement).value;
+  let name = (document.getElementById('userSearchBar') as HTMLInputElement).value;
   if(name != ''){
     clearInputs()
     userController.findUser(name).then(function(response){
       if(response.id !== undefined){
-        (document.getElementById('searchBar') as HTMLInputElement).value = '';
+        (document.getElementById('userSearchBar') as HTMLInputElement).value = '';
         (document.getElementById('id') as HTMLInputElement).value = response.id;
-        (document.getElementById('name') as HTMLInputElement).value = response.name;
+        (document.getElementById('userName') as HTMLInputElement).value = response.name;
         (document.getElementById('role') as HTMLInputElement).value = response.role;
         (document.getElementById('password') as HTMLInputElement).value = '';
       }else{
@@ -37,37 +37,39 @@ function findUser(){
 
 function clearInputs(){
   (document.getElementById('message') as HTMLTextAreaElement).innerHTML = '';
-  (document.getElementById('searchBar') as HTMLInputElement).value = '';
+  (document.getElementById('userSearchBar') as HTMLInputElement).value = '';
   (document.getElementById('id') as HTMLInputElement).value = '0';
-  (document.getElementById('name') as HTMLInputElement).value = '';
+  (document.getElementById('userName') as HTMLInputElement).value = '';
   (document.getElementById('role') as HTMLInputElement).value = '';
   (document.getElementById('password') as HTMLInputElement).value = '';
 }
 
 function createUser(){
-  user.setName((document.getElementById('name') as HTMLInputElement).value);
+  user.setName((document.getElementById('userName') as HTMLInputElement).value);
   user.setPassword((document.getElementById('password') as HTMLInputElement).value);
   user.setRole((document.getElementById('role') as HTMLInputElement).value);
-  userController.createUser(user).then(function(){
-    (document.getElementById('message') as HTMLTextAreaElement).innerHTML = "Usuário criado com sucesso!"
+  userController.createUser(user).then(function(response){
+    (document.getElementById('userSearchBar') as HTMLInputElement).value = response.name;
+    findUser();
   })
 }
 
 function updateUser() {
   user.setId(parseInt((document.getElementById('id') as HTMLInputElement).value));
-  user.setName((document.getElementById('name') as HTMLInputElement).value);
+  user.setName((document.getElementById('userName') as HTMLInputElement).value);
   user.setPassword((document.getElementById('password') as HTMLInputElement).value);
   user.setRole((document.getElementById('role') as HTMLInputElement).value);
-  userController.updateUser(user).then(function(){
-    (document.getElementById('message') as HTMLTextAreaElement).innerHTML = "Usuário atualizado com sucesso!"
+  userController.updateUser(user).then(function(response){
+    (document.getElementById('userSearchBar') as HTMLInputElement).value = response.name;
+    findUser();
   })
 }
 
 function deleteUser() {
   user.setId(parseInt((document.getElementById('id') as HTMLInputElement).value));
   userController.deleteUser(user).then(function(){
-    (document.getElementById('message') as HTMLTextAreaElement).innerHTML = "Usuário excluido com sucesso!"
-    clearInputs()
+    clearInputs();
+    (document.getElementById('message') as HTMLTextAreaElement).innerHTML = "Usuário excluido com sucesso!";
   })
 }
 
@@ -98,7 +100,7 @@ const Users: React.FC = () => {
           <h1>Usuário</h1>
           <div>
             <IonToolbar>
-              <IonSearchbar placeholder='Digite o nome de Usuário' onIonChange={findUser} id='searchBar'></IonSearchbar>
+              <IonSearchbar placeholder='Digite o nome de Usuário' onIonChange={findUser} id='userSearchBar'></IonSearchbar>
             </IonToolbar>
           </div>
           <div>
@@ -109,7 +111,7 @@ const Users: React.FC = () => {
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="User Image" src={avatar} />
               </IonAvatar>
-              <IonInput label="Nome de Usuário" placeholder="Digite o nome de Usuário" required clearInput={true} id='name' labelPlacement='stacked'></IonInput>
+              <IonInput label="Nome de Usuário" placeholder="Digite o nome de Usuário" required clearInput={true} id='userName' labelPlacement='stacked'></IonInput>
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">

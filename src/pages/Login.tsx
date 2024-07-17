@@ -3,8 +3,6 @@ import './Login.css';
 import avatar from '../Images/user-line_white.svg';
 import lock from '../Images/lock-2-line.svg';
 import { sendJson, setHeader } from '../components/Json';
-import { Route } from 'react-router-dom';
-import Clients from './Clients';
 
 function setLogin() {
   let name = (document.getElementById('name') as HTMLInputElement).value
@@ -58,7 +56,7 @@ const Login: React.FC = () => {
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="Lock Image" src={lock} />
               </IonAvatar>
-              <IonInput label="Senha" placeholder="Digite sua senha" type='password' required maxlength={16} clearInput={true} id='password' labelPlacement='stacked'></IonInput>
+              <IonInput label="Senha" placeholder="Digite sua senha" type='password' required maxlength={16} clearInput={true} id='password' labelPlacement='stacked' onKeyDown={setLogin}></IonInput>
             </IonItem>
             <p id='message'></p>
           </div>

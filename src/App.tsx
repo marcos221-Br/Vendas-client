@@ -69,7 +69,7 @@ const App: React.FC = () => (
           <Route exact path="/client">
             <Clients />
           </Route>
-          <Route path="/order">
+          <Route exact path="/order">
             <Orders />
           </Route>
           <Route exact path="/">
