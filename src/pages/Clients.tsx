@@ -26,10 +26,10 @@ function logOut(){
 }
 
 function findClient(){
-  let cellphone = (document.getElementById('searchBar') as HTMLInputElement).value;
-  if(cellphone != ''){
+  let search = (document.getElementById('searchBar') as HTMLInputElement).value;
+  if(search != ''){
     clearInputs()
-    clientController.findClient(cellphone).then(function(response){
+    clientController.findClient(search).then(function(response){
       if(response.id !== undefined){
         (document.getElementById('searchBar') as HTMLInputElement).value = '';
         (document.getElementById('idClient') as HTMLInputElement).value = response.id;
@@ -178,7 +178,7 @@ const Clients: React.FC = () => {
           <h1>Cliente</h1>
           <div>
             <IonToolbar>
-              <IonSearchbar placeholder='Digite o número de telefone' onIonChange={findClient} id='searchBar'></IonSearchbar>
+              <IonSearchbar placeholder='Digite nome ou número de telefone' onIonChange={findClient} id='searchBar'></IonSearchbar>
             </IonToolbar>
           </div>
           <div>

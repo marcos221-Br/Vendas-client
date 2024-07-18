@@ -7,8 +7,8 @@ export class ClientController{
         setHeader('Authorization',sessionStorage.getItem('token')+"")
     }
 
-    public findClient(cellphone:string){
-        return sendJson('/client/' + cellphone,'GET')
+    public findClient(search:string){
+        return sendJson('/client/' + search,'GET')
     }
 
     public createClient(client:Client){
