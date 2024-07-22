@@ -29,3 +29,8 @@
     max-height: 15vh;
     overflow: auto;
 }
+
+.radio{
+    font-size: small;
+    padding-right: 25px;
+}

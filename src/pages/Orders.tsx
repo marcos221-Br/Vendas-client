@@ -61,6 +61,7 @@ function findItens(){
     (document.getElementById('idOrder') as HTMLTextAreaElement).value = sessionStorage.getItem('orderId')+'';
     let list = (document.getElementById('listItens') as HTMLIonListElement);
     itemController.findItens(parseInt(sessionStorage.getItem('orderId')+'')).then(function(itens){
+      let total = 0.0;
       if(itens.length > 0){
         for(let i = 0; i < itens.length; i++){
           let quantity = document.createElement('ion-input');
@@ -73,7 +74,9 @@ function findItens(){
           quantity.value = itens[i].quantity;
           description.value = itens[i].description;
           value.value = itens[i].value;
-          quantity.setAttribute('className','itemQuantity');
+          total = itens[i].value;
+          quantity.setAttribute('class','itemQuantity');
+          value.setAttribute('class','itemValue')
           editIcon.setAttribute('icon',pencil);
           editButton.setAttribute('color','warning');
           editButton.appendChild(editIcon);
@@ -104,6 +107,12 @@ function findItens(){
         itemList.appendChild(p);
         list.replaceChildren(itemList);
       }
+      let itemList = document.createElement('ion-item');
+      let totalValue = document.createElement('ion-label');
+      totalValue.innerHTML = 'valor total: R$ ' + total;
+      totalValue.setAttribute('slot','end')
+      itemList.appendChild(totalValue);
+      list.appendChild(itemList);
     })
   }
 }

@@ -12,8 +12,13 @@ export class OrderController{
     }
 
     public createOrder(order:Order){
-        let json = JSON.stringify({ client: { id: order.getIdClient() }})
+        let json = JSON.stringify({ progress: order.getProgress(), client: { id: order.getIdClient() }})
         return sendJson('/order','POST',json)
+    }
+
+    public updateOrder(order:Order){
+        let json = JSON.stringify({ id: order.getId(), date: order.getDate(), progress: order.getProgress(), client: { id: order.getIdClient() }})
+        return sendJson('/order/' + order.getId(),'PUT',json);
     }
 
     public deleteOrder(order:Order){

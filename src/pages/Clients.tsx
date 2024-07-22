@@ -1,4 +1,4 @@
-import { IonAvatar, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonList, IonPage, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
+import { IonAvatar, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonList, IonPage, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
 import './Clients.css';
 import avatar from '../Images/user-line_white.svg';
 import smartphone from '../Images/smartphone-line.svg';
@@ -89,6 +89,7 @@ function findOrders(idClient:Number){
       for (let i = 0; i < orders.length; i++) {
         let id = document.createElement('ion-label');
         let date = document.createElement('ion-label');
+        date.setAttribute('id','orderDate' + orders[i].id);
         let editButton = document.createElement('ion-button');
         let editIcon = document.createElement('ion-icon');
         let deleteButton = document.createElement('ion-button');
@@ -105,14 +106,56 @@ function findOrders(idClient:Number){
         deleteButton.addEventListener('click',deleteOrder);
         id.innerHTML = orders[i].id;
         date.innerHTML = orders[i].date;
+        let progress = document.createElement('ion-radio-group');
+        let ongoing = document.createElement('ion-radio');
+        ongoing.setAttribute('slot','start');
+        ongoing.setAttribute('class','radio');
+        ongoing.setAttribute('value','ongoing');
+        ongoing.setAttribute('id',orders[i].id);
+        ongoing.addEventListener('click',updateOrder);
+        ongoing.innerHTML = 'Em andamento';
+        let finished = document.createElement('ion-radio');
+        finished.setAttribute('slot','start');
+        finished.setAttribute('class','radio');
+        finished.setAttribute('value','finished');
+        finished.setAttribute('id',orders[i].id);
+        finished.addEventListener('click',updateOrder);
+        finished.innerHTML = 'Finalizado';
+        let delivered = document.createElement('ion-radio');
+        delivered.setAttribute('slot','start');
+        delivered.setAttribute('class','radio');
+        delivered.setAttribute('value','delivered');
+        delivered.setAttribute('id',orders[i].id);
+        delivered.addEventListener('click',updateOrder);
+        delivered.innerHTML = 'Entregue';
+        progress.setAttribute('value',orders[i].progress);
+        progress.appendChild(ongoing);
+        progress.appendChild(finished);
+        progress.appendChild(delivered);
         let item = document.createElement('ion-item');
         item.setAttribute('lines','full')
         item.appendChild(id);
         item.appendChild(date);
+        item.appendChild(progress);
         item.appendChild(editButton);
         item.appendChild(deleteButton);
         if(i == 0){
           list.replaceChildren(item);
+          /*let firstItem = document.createElement('ion-item');
+          let orderNumber = document.createElement('ion-label');
+          orderNumber.innerHTML = 'Número de pedido';
+          let data = document.createElement('ion-label');
+          data.innerHTML = 'Data do pedido';
+          let progress = document.createElement('ion-label');
+          progress.innerHTML = 'Situação do pedido';
+          let options = document.createElement('ion-label');
+          options.setAttribute('slot','end');
+          options.innerHTML = 'Opções';
+          firstItem.appendChild(orderNumber);
+          firstItem.appendChild(data);
+          firstItem.appendChild(progress);
+          firstItem.appendChild(options);
+          list.insertBefore(firstItem,list.firstChild);*/
         }else{
           list.appendChild(item);
         }
@@ -131,6 +174,7 @@ function findOrders(idClient:Number){
 function createOrder(){
   if((document.getElementById('idClient') as HTMLInputElement).value != '' && (document.getElementById('idClient') as HTMLInputElement).value != '0'){
     order.setIdClient(parseInt((document.getElementById('idClient') as HTMLInputElement).value));
+    order.setProgress('ongoing');
     orderController.createOrder(order).then(function(response){
       (document.getElementById('orderMessage') as HTMLTextAreaElement).innerHTML = "Pedido criado com sucesso!";
       sessionStorage.setItem('orderId',response.id);
@@ -139,6 +183,17 @@ function createOrder(){
   }else{
     (document.getElementById('orderMessage') as HTMLTextAreaElement).innerHTML = "Necessário fornecer um cliente!";
   }
+}
+
+function updateOrder(value:any){
+  order.setId(value.target.id)
+  order.setProgress(value.target.value);
+  order.setIdClient(parseInt((document.getElementById('idClient') as HTMLInputElement).value));
+  order.setDate((document.getElementById('orderDate' + value.target.id) as HTMLTextAreaElement).textContent + '');
+  orderController.updateOrder(order).then(function(){
+    findOrders(parseInt((document.getElementById('idClient') as HTMLInputElement).value));
+    (document.getElementById('orderMessage') as HTMLInputElement).innerHTML = "Pedido atualizado com sucesso!";
+  })
 }
 
 function clearInputs(){
