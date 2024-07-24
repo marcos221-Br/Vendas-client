@@ -12,12 +12,12 @@ export class ItemController{
     }
 
     public createItem(item:Item){
-        let json = JSON.stringify({ quantity: item.getQuantity(), description: item.getDescription(), value: item.getValue(), order: { id: item.getIdOrder() } });
+        let json = JSON.stringify({ quantity: item.getQuantity(), description: item.getDescription(), size: item.getSize(), value: item.getValue(), order: { id: item.getIdOrder() } });
         return sendJson('/item','POST',json);
     }
 
     public updateItem(item:Item){
-        let json = JSON.stringify({ id: item.getId(), quantity: item.getQuantity(), description: item.getDescription(), value: item.getValue(), order: { id: item.getIdOrder() } });
+        let json = JSON.stringify({ id: item.getId(), quantity: item.getQuantity(), description: item.getDescription(), size: item.getSize(), value: item.getValue(), order: { id: item.getIdOrder() } });
         return sendJson('/item/' + item.getId(),'PUT',json);
     }
 

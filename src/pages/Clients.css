@@ -34,3 +34,18 @@
     font-size: small;
     padding-right: 25px;
 }
+
+.idOrder{
+    width: 70px;
+}
+
+.dateOrder{
+    margin-left: 10px;
+    width: 100px;
+}
+
+.valueOrder{
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 100px;
+}

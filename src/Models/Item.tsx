@@ -1,7 +1,8 @@
 export class Item{
     private id:Number;
     private quantity:Number;
-    private description:string;
+    private description:String;
+    private size:String
     private value:Number;
     private idOrder:Number;
 
@@ -11,6 +12,7 @@ export class Item{
         this.description = '';
         this.value = 0;
         this.idOrder = 0;
+        this.size = '';
     }
 
     public setId(id:Number){
@@ -29,12 +31,20 @@ export class Item{
         return this.quantity;
     }
     
-    public setDescription(description:string){
+    public setDescription(description:String){
         this.description = description;
     }
 
     public getDescription(){
         return this.description;
+    }
+
+    public setSize(size:String){
+        this.size = size;
+    }
+
+    public getSize(){
+        return this.size;
     }
 
     public setValue(value:Number){

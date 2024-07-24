@@ -50,13 +50,13 @@ const Login: React.FC = () => {
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="User Image" src={avatar} />
               </IonAvatar>
-              <IonInput label="Nome de Usuário" placeholder="Digite seu nome" required clearInput={true} id='name' labelPlacement='stacked'></IonInput>
+              <IonInput label="Nome de Usuário" placeholder="Digite seu nome" required id='name' labelPlacement='stacked'></IonInput>
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="Lock Image" src={lock} />
               </IonAvatar>
-              <IonInput label="Senha" placeholder="Digite sua senha" type='password' required maxlength={16} clearInput={true} id='password' labelPlacement='stacked' onKeyDown={setLogin}></IonInput>
+              <IonInput label="Senha" placeholder="Digite sua senha" type='password' required maxlength={16} clearInput={true} id='password' labelPlacement='stacked'></IonInput>
             </IonItem>
             <p id='message'></p>
           </div>

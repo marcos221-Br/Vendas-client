@@ -8,11 +8,15 @@ import { ClientController } from '../Controllers/ClientController';
 import { Client } from '../Models/Client';
 import { OrderController } from '../Controllers/OrderController';
 import { Order } from '../Models/Order';
+import { useMaskito } from '@maskito/react';
+import { MaskitoOptions, maskitoTransform } from '@maskito/core';
+import { ItemController } from '../Controllers/ItemController';
 
 var clientController = new ClientController();
 var client = new Client();
 var orderController = new OrderController();
 var order = new Order();
+var itemController = new ItemController();
 
 function verifyLogin(){
   if(sessionStorage.getItem('username') == null){
@@ -34,7 +38,7 @@ function findClient(){
         (document.getElementById('searchBar') as HTMLInputElement).value = '';
         (document.getElementById('idClient') as HTMLInputElement).value = response.id;
         (document.getElementById('name') as HTMLInputElement).value = response.name;
-        (document.getElementById('cellphone') as HTMLInputElement).value = response.cellphone;
+        (document.getElementById('cellphone') as HTMLInputElement).value = maskitoTransform(response.cellphone,{mask: ['(',/\d/,/\d/,')',' ',/\d/,/\d/,/\d/,/\d/,/\d/,'-',/\d/,/\d/,/\d/,/\d/],});
         findOrders(response.id);
       }else{
         (document.getElementById('clientMessage') as HTMLTextAreaElement).innerHTML = 'Cliente não encontrado!';
@@ -45,7 +49,8 @@ function findClient(){
 
 function createClient(){
   client.setName((document.getElementById('name') as HTMLInputElement).value);
-  client.setCellphone((document.getElementById('cellphone') as HTMLInputElement).value);
+  client.setCellphone((document.getElementById('cellphone') as HTMLInputElement).value.replace('(','').replace(')','').replace('-','').replace(' ',''));
+  console.log(client);
   clientController.createClient(client).then(function(response){
     (document.getElementById('idClient') as HTMLInputElement).value = response.id;
     (document.getElementById('clientMessage') as HTMLTextAreaElement).innerHTML = "Cliente criado com sucesso!"
@@ -55,7 +60,7 @@ function createClient(){
 function updateClient() {
   client.setId(parseInt((document.getElementById('idClient') as HTMLInputElement).value));
   client.setName((document.getElementById('name') as HTMLInputElement).value);
-  client.setCellphone((document.getElementById('cellphone') as HTMLInputElement).value);
+  client.setCellphone((document.getElementById('cellphone') as HTMLInputElement).value.replace('(','').replace(')','').replace('-','').replace(' ',''));
   clientController.updateClient(client).then(function(){
     (document.getElementById('clientMessage') as HTMLTextAreaElement).innerHTML = "Cliente atualizado com sucesso!"
   })
@@ -87,9 +92,31 @@ function findOrders(idClient:Number){
   orderController.findOrders(idClient).then(function(orders) {
     if(orders.length > 0){
       for (let i = 0; i < orders.length; i++) {
-        let id = document.createElement('ion-label');
-        let date = document.createElement('ion-label');
+        let id = document.createElement('ion-input');
+        id.setAttribute('label','Número');
+        id.setAttribute('label-placement','stacked');
+        id.readonly = true;
+        id.setAttribute('class','idOrder');
+        let date = document.createElement('ion-input');
+        date.setAttribute('label','Data de criação');
+        date.setAttribute('label-placement','stacked');
+        date.readonly = true;
+        date.setAttribute('class','dateOrder');
         date.setAttribute('id','orderDate' + orders[i].id);
+        let totalValue = document.createElement('ion-input');
+        totalValue.setAttribute('label','Valor total');
+        totalValue.setAttribute('label-placement','stacked');
+        totalValue.setAttribute('class','valueOrder');
+        totalValue.readonly = true;
+        let value = 0;
+        itemController.findItens(orders[i].id).then(function(itens){
+          if(itens.length > 0){
+            for(let i = 0; i < itens.length; i++){
+              value += itens[i].value;
+            }
+            totalValue.value = ('R$ ' + value.toFixed(2)).replace('.',',');
+          }
+        })
         let editButton = document.createElement('ion-button');
         let editIcon = document.createElement('ion-icon');
         let deleteButton = document.createElement('ion-button');
@@ -104,8 +131,8 @@ function findOrders(idClient:Number){
         deleteButton.appendChild(deleteIcon);
         deleteButton.setAttribute('id',orders[i].id);
         deleteButton.addEventListener('click',deleteOrder);
-        id.innerHTML = orders[i].id;
-        date.innerHTML = orders[i].date;
+        id.value = orders[i].id;
+        date.value = orders[i].date;
         let progress = document.createElement('ion-radio-group');
         let ongoing = document.createElement('ion-radio');
         ongoing.setAttribute('slot','start');
@@ -137,27 +164,13 @@ function findOrders(idClient:Number){
         item.appendChild(id);
         item.appendChild(date);
         item.appendChild(progress);
+        item.appendChild(totalValue);
         item.appendChild(editButton);
         item.appendChild(deleteButton);
         if(i == 0){
           list.replaceChildren(item);
-          /*let firstItem = document.createElement('ion-item');
-          let orderNumber = document.createElement('ion-label');
-          orderNumber.innerHTML = 'Número de pedido';
-          let data = document.createElement('ion-label');
-          data.innerHTML = 'Data do pedido';
-          let progress = document.createElement('ion-label');
-          progress.innerHTML = 'Situação do pedido';
-          let options = document.createElement('ion-label');
-          options.setAttribute('slot','end');
-          options.innerHTML = 'Opções';
-          firstItem.appendChild(orderNumber);
-          firstItem.appendChild(data);
-          firstItem.appendChild(progress);
-          firstItem.appendChild(options);
-          list.insertBefore(firstItem,list.firstChild);*/
         }else{
-          list.appendChild(item);
+          list.insertBefore(item,list.firstChild)
         }
       }
     }else{
@@ -189,7 +202,7 @@ function updateOrder(value:any){
   order.setId(value.target.id)
   order.setProgress(value.target.value);
   order.setIdClient(parseInt((document.getElementById('idClient') as HTMLInputElement).value));
-  order.setDate((document.getElementById('orderDate' + value.target.id) as HTMLTextAreaElement).textContent + '');
+  order.setDate((document.getElementById('orderDate' + value.target.id) as HTMLInputElement).value);
   orderController.updateOrder(order).then(function(){
     findOrders(parseInt((document.getElementById('idClient') as HTMLInputElement).value));
     (document.getElementById('orderMessage') as HTMLInputElement).innerHTML = "Pedido atualizado com sucesso!";
@@ -212,6 +225,11 @@ function clearInputs(){
 }
 
 const Clients: React.FC = () => {
+  let phoneMaskOptions: MaskitoOptions = {
+    mask: ['(',/\d/,/\d/,')',' ',/\d/,/\d/,/\d/,/\d/,/\d/,'-',/\d/,/\d/,/\d/,/\d/],
+  };
+  let phoneMask = useMaskito({options: phoneMaskOptions});
+
   verifyLogin()
   return (
     <IonPage>
@@ -244,13 +262,18 @@ const Clients: React.FC = () => {
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="User Image" src={avatar} />
               </IonAvatar>
-              <IonInput label="Nome" placeholder="Digite o nome do cliente" required clearInput={true} id='name' labelPlacement='stacked'></IonInput>
+              <IonInput label="Nome" placeholder="Digite o nome do cliente" required id='name' labelPlacement='stacked'></IonInput>
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="Smartphone Image" src={smartphone} />
               </IonAvatar>
-              <IonInput label="Telefone" placeholder="Digite o telefone do cliente" type='tel' required clearInput={true} id='cellphone' labelPlacement='stacked'></IonInput>
+              <IonInput label="Telefone" placeholder="Digite o telefone do cliente" type='tel' required id='cellphone' labelPlacement='stacked' ref={async (phoneInput) => {
+                if(phoneInput){
+                  let input = await phoneInput.getInputElement();
+                  phoneMask(input);
+                }
+              }}></IonInput>
             </IonItem>
             <p id='clientMessage'></p>
           </div>

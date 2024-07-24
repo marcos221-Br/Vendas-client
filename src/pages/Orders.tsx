@@ -25,7 +25,8 @@ function editItem(value:any){
   item.setId(parseInt(value.target.id));
   item.setQuantity(parseInt(value.target.parentElement.children[0].value));
   item.setDescription(value.target.parentElement.children[1].value);
-  item.setValue(parseFloat(value.target.parentElement.children[2].value))
+  item.setSize(value.target.parentElement.children[2].value);
+  item.setValue(parseFloat((value.target.parentElement.children[3].value).replace(',','.').replace('R','').replace('$','').replace(' ','')))
   item.setIdOrder(parseInt((document.getElementById('idOrder') as HTMLTextAreaElement).value));
   itemController.updateItem(item).then(function(){
     findItens();
@@ -44,12 +45,14 @@ function deleteItem(value:any){
 function addItem(){
   item.setQuantity(parseInt((document.getElementById('quantity') as HTMLTextAreaElement).value));
   item.setDescription((document.getElementById('description') as HTMLTextAreaElement).value);
-  item.setValue(parseFloat((document.getElementById('value') as HTMLTextAreaElement).value));
+  item.setValue((parseInt(item.getQuantity()+'')*parseFloat(((document.getElementById('value') as HTMLTextAreaElement).value).replace(',','.'))));
   item.setIdOrder(parseInt((document.getElementById('idOrder') as HTMLTextAreaElement).value));
   item.setQuantity(parseInt((document.getElementById('quantity') as HTMLTextAreaElement).value));
+  item.setSize((document.getElementById('size') as HTMLInputElement).value);
   (document.getElementById('description') as HTMLTextAreaElement).value = '';
   (document.getElementById('value') as HTMLTextAreaElement).value = '';
   (document.getElementById('quantity') as HTMLTextAreaElement).value = '';
+  (document.getElementById('size') as HTMLInputElement).value = '';
   itemController.createItem(item).then(function(){
     findItens();
     (document.getElementById('message') as HTMLTextAreaElement).innerHTML = 'Item adicionado com sucesso!';
@@ -61,11 +64,12 @@ function findItens(){
     (document.getElementById('idOrder') as HTMLTextAreaElement).value = sessionStorage.getItem('orderId')+'';
     let list = (document.getElementById('listItens') as HTMLIonListElement);
     itemController.findItens(parseInt(sessionStorage.getItem('orderId')+'')).then(function(itens){
-      let total = 0.0;
+      let total = 0;
       if(itens.length > 0){
         for(let i = 0; i < itens.length; i++){
           let quantity = document.createElement('ion-input');
           let description = document.createElement('ion-input');
+          let size = document.createElement('ion-input');
           let value = document.createElement('ion-input');
           let editButton = document.createElement('ion-button');
           let editIcon = document.createElement('ion-icon');
@@ -73,10 +77,23 @@ function findItens(){
           let deleteIcon = document.createElement('ion-icon');
           quantity.value = itens[i].quantity;
           description.value = itens[i].description;
-          value.value = itens[i].value;
-          total = itens[i].value;
+          size.value = itens[i].size;
+          value.value = 'R$ ' + (itens[i].value).toFixed(2).replace('.',',');
+          total += itens[i].value;
           quantity.setAttribute('class','itemQuantity');
-          value.setAttribute('class','itemValue')
+          quantity.setAttribute('label','Quantidade');
+          quantity.setAttribute('label-placement','stacked');
+          quantity.readonly = true;
+          description.setAttribute('class','itemDescription');
+          description.setAttribute('label','Descrição');
+          description.setAttribute('label-placement','stacked');
+          size.setAttribute('class','itemSize');
+          size.setAttribute('label','Tamanho');
+          size.setAttribute('label-placement','stacked');
+          value.setAttribute('class','itemValue');
+          value.setAttribute('label','Valor');
+          value.setAttribute('label-placement','stacked')
+          value.readonly = true;
           editIcon.setAttribute('icon',pencil);
           editButton.setAttribute('color','warning');
           editButton.appendChild(editIcon);
@@ -91,6 +108,7 @@ function findItens(){
           itemList.setAttribute('lines','full')
           itemList.appendChild(quantity);
           itemList.appendChild(description);
+          itemList.appendChild(size);
           itemList.appendChild(value);
           itemList.appendChild(editButton);
           itemList.appendChild(deleteButton);
@@ -109,7 +127,7 @@ function findItens(){
       }
       let itemList = document.createElement('ion-item');
       let totalValue = document.createElement('ion-label');
-      totalValue.innerHTML = 'valor total: R$ ' + total;
+      totalValue.innerHTML = 'Valor Total: R$ ' + total.toFixed(2).replace('.',',');
       totalValue.setAttribute('slot','end')
       itemList.appendChild(totalValue);
       list.appendChild(itemList);
@@ -144,8 +162,9 @@ const Orders: React.FC = () => {
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="Survey Image" src={survey} />
               </IonAvatar>
-              <IonInput label='Quantidade' labelPlacement='stacked' className='itemQuantity' id='quantity'></IonInput>
+              <IonInput label='Quantidade' labelPlacement='stacked' className='itemQuantity' id='quantity' type='number'></IonInput>
               <IonInput label='Descrição' labelPlacement='stacked' id='description'></IonInput>
+              <IonInput label='Tamanho' labelPlacement='stacked' id='size' className='itemSize'></IonInput>
               <IonInput label='Valor Unit.' labelPlacement='stacked' className='itemValue' id='value'></IonInput>
               <IonButton size='small' slot='end' shape='round' onClick={addItem}>
                 <IonIcon slot='icon-only' icon={add}></IonIcon>

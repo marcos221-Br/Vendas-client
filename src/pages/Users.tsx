@@ -111,7 +111,7 @@ const Users: React.FC = () => {
               <IonAvatar aria-hidden="true" slot="start">
                 <img alt="User Image" src={avatar} />
               </IonAvatar>
-              <IonInput label="Nome de Usuário" placeholder="Digite o nome de Usuário" required clearInput={true} id='userName' labelPlacement='stacked'></IonInput>
+              <IonInput label="Nome de Usuário" placeholder="Digite o nome de Usuário" required id='userName' labelPlacement='stacked'></IonInput>
             </IonItem>
             <IonItem>
               <IonAvatar aria-hidden="true" slot="start">

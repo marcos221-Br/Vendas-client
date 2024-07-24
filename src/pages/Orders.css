@@ -30,8 +30,21 @@
 
 .itemQuantity{
     width: 70px;
+    margin-right: 10px;
+}
+
+.itemDescription{
+    width: 550px;
+    margin-right: 10px;
 }
 
 .itemValue{
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.itemSize{
     width: 60px;
+    margin-right: 10px;
 }
